@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 %
 \usepackage{abstract,amsmath,amssymb,latexsym}
+\usepackage{tikz-cd}
 \usepackage{enumitem,epsf}
 \usepackage{fullpage,tikz,float}
 \usepackage[numbers]{natbib}
@@ -68,8 +69,73 @@
 
 \setcounter{page}{1}
 
-\input{sections/intro}
-\input{sections/setting}
+% TODO: After planning phase move to sections.
+
+\section{Planning \& Unorganized Results (*)}
+\subsection{Motivation \& Goal}
+
+\subsection{Questions/Hypothesis}
+
+\subsection{Theory}
+
+\subsubsection{Desired Results}
+
+\subsubsection{Some Exposition}
+
+\subsection{Experiments}
+
+The following are a set of desired experiments to verify the newly proposed hyperparameter representation.
+
+\subsection{Reading List}
+
+\subsection{Related Notes}
+
+\begin{itemize}
+	\item \href{https://onedrive.live.com/edit.aspx/Documents/Machine%20Learning?cid=c05fef92a4e2f5cd&id=documents&wd=target%28Continuous%20Parameterization.one%7C577F6089-A9C8-40F1-A37C-474241ED5D20%2F%29
+onenote:https://d.docs.live.net/c05fef92a4e2f5cd/Documents/Machine%20Learning/Continuous%20Parameterization.one#section-id={577F6089-A9C8-40F1-A37C-474241ED5D20}&end}{Continuous Hidden Dimension}
+	\item \textbf{Some Thoughts on Local Search on Hidden Units.} Let $\scriptn$ be the $\mathfrak{n}$-discrete instatntiation of the following DFM
+	\begin{equation*}
+	\begin{tikzcd}
+		\scripto: \boxed{\mathbb{R}^n} \arrow{r}{\mathfrak{d}} & \boxed{L^1(E(\gamma))} \arrow{r}{\mathfrak{f}} & \boxed{\mathbb{R}}
+	\end{tikzcd}
+	\end{equation*}
+	where $E: \mathbb{R} \to \scriptl(\mathbb{R})$ is a function which parameterizes the domain over which the $\mathfrak{f}$-functional integrates.
+	
+
+	It was concluded in the last note that if $E(\gamma) = [0, \gamma] \in \scriptl(\mathbb{R})$ then we have the following problem for the piecewise constant
+	parameterization of weights on $\mathfrak{f}, \mathfrak{d}.$ Let $F: \mathbb{R} \to \mathbb{R}$ be some loss function, and then computation of the local gradient ascent path
+	gives
+	\begin{equation*}
+	\begin{aligned}
+		\frac{\partial F}{\partial \gamma} &= \frac{d F}{d y^2} \frac{\partial y^2}{\partial \gamma} \\
+		 &= \frac{d F}{d y^2} \cdot \left[\frac{\partial }{\partial \gamma}  \int_{[0, \gamma]} \sum_{k=1}^\infty  [\sigma \circ \mathfrak{d}(x)](u)  \chi_{k\cdot [0,1]}(u) W^1_{k}\ d\mu(u)   \right]_\mathfrak{n} \\
+		 &= \frac{d F}{d y^2} \cdot \left[ \sum_{k=1}^\infty  [\sigma \circ \mathfrak{d}(x)](\gamma)  \chi_{k\cdot [0,1]}(\gamma) W^1_{k}    \right]_\mathfrak{n} \\
+		 &= \frac{d F}{d y^2} \cdot  y^1_{\floor*{\gamma}} W^1_{\floor*{\gamma}}.
+	\end{aligned}
+	\end{equation*}
+
+	In otherwords, gradient ascent on $F$ with respect to $\gamma$ will increase $\gamma$ if the error will decrease when the contribution of the last output neuron is increased (in magnitude); that is, if $\gamma' > \gamma$ then $(\gamma - \floor*{\gamma})$ increases, and thus $E$ decreases by virtue of the term 
+	\begin{equation*}
+		\int_{\floor*{\gamma}\cdot [0,1]} y^1(u) W^1_{\floor*{\gamma}}\ d\mu(u) = (\gamma - \floor*{\gamma}) y^1_{\floor*{\gamma}} W^1_{\floor*{\gamma}}
+	\end{equation*} increasing. Searching over $\gamma$ is effecitvely the same as spending extra time changing the weight $W_{\floor*{\gamma}}^1$ using two linearly dependent parameters, $(\gamma - \floor*{\gamma})$ and $W_{\floor*{\gamma}}^1$, itself\footnote{An additonal conclusion is, at least by analogy, that local search on $E(\gamma)$ at any one place assumes that adjacent neurons have similar values }. 
+
+	  Thus we are led to the question: \emph{Is hyperparameter search a matter of model capacity or model accuracy, and in that distinction, does optimizing hyperparameters with respect to model accuracy coorespond to optimization on model capactiy and visa versa?}  Before we define more specifically model capacity in the context of this question, let us examine this question in two contexts.\
+
+	   Above, we noted that a local search on $\gamma$ decreased error in exactly the same fashion as standard gradient descent, but a step in $\gamma$ of more than integral amount can increase error. To see this let $k = \floor*{\gamma}$. When $\Delta \gamma > 1$ then the $(k+1)$th neuron is then "enabled" so-to-speak. However, this $(k+1)$th neuron may perform a computation that increases error and so in the next step of gradient descent $\Delta \gamma$ would be negative, retreating away from the added model capacity of a randomly intiialized $(k+1)$th neuron. That is not to say that $\gamma$ might not increase again, repeating the process, or in the limit of such oscilations the update $ W^1_{k+1} -\alpha\partial E/\partial W^1_{k+1} \to W^1_{k+1}$, will eventually contribute to model accuracy, but relying on these dynamics as a result with no guarentees of convergence is questionable. Despite the fact that $\scriptn$ may need additional model capacity\footnote{There are functions which are unlearnable without a sufficient number of neurons for example.}, local search on capacity with respect to accuracy may not yield the required capacity to increase accuracy in the limit.
+
+	   \todo{Include brief analysis of richard's paper.}
+
+
+\end{itemize}
+
+\subsection{Timeline}
+
+T
+
+
+
+
+
 
 % \input{related}
 % \input{setting}
@@ -84,7 +150,7 @@
 % \input{appendix}
 \fi
 
-\subsection*{Acknowledgments}
+% \subsection*{Acknowledgments}
 
 \bibliographystyle{plainnat}
 \bibliography{bib}
