@@ -119,11 +119,49 @@ onenote:https://d.docs.live.net/c05fef92a4e2f5cd/Documents/Machine%20Learning/Co
 		\int_{\floor*{\gamma}\cdot [0,1]} y^1(u) W^1_{\floor*{\gamma}}\ d\mu(u) = (\gamma - \floor*{\gamma}) y^1_{\floor*{\gamma}} W^1_{\floor*{\gamma}}
 	\end{equation*} increasing. Searching over $\gamma$ is effecitvely the same as spending extra time changing the weight $W_{\floor*{\gamma}}^1$ using two linearly dependent parameters, $(\gamma - \floor*{\gamma})$ and $W_{\floor*{\gamma}}^1$, itself\footnote{An additonal conclusion is, at least by analogy, that local search on $E(\gamma)$ at any one place assumes that adjacent neurons have similar values }. 
 
-	  Thus we are led to the question: \emph{Is hyperparameter search a matter of immediate model accuracy or expected capacity for accuracy, and in that distinction, does optimizing hyperparameters with respect to model accuracy coorespond to optimization on model capactiy and visa versa?}  Let us examine this question in two contexts.\
+	Thus we are led to the question: \emph{Is hyperparameter search a matter of immediate model accuracy or expected capacity for accuracy, and in that distinction, does optimizing hyperparameters with respect to model accuracy coorespond to optimization on model capactiy and visa versa?}  Let us examine this question in the following context. \
 
-	   Above, we noted that a local search on $\gamma$ decreased error in exactly the same fashion as standard gradient descent, but a step in $\gamma$ of more than integral amount can increase error. To see this let $k = \floor*{\gamma}$. When $\Delta \gamma > 1$ then the $(k+1)$th neuron is then "enabled" so-to-speak. However, this $(k+1)$th neuron may perform a computation that increases error and so in the next step of gradient descent $\Delta \gamma$ would be negative, retreating away from the added model capacity of a randomly intiialized $(k+1)$th neuron. That is not to say that $\gamma$ might not increase again, repeating the process, or in the limit of such oscilations the update $ W^1_{k+1} -\alpha\partial E/\partial W^1_{k+1} \to W^1_{k+1}$, will eventually contribute to model accuracy, but relying on these dynamics as a result with no guarentees of convergence is questionable. Despite the fact that $\scriptn$ may need additional model capacity\footnote{There are functions which are unlearnable without a sufficient number of neurons for example.}, local search on capacity with respect to accuracy may not yield the required capacity to increase accuracy in the limit.
+	Above, we noted that a local search on $\gamma$ decreased error in exactly the same fashion as standard gradient descent, but a step in $\gamma$ of more than integral amount can increase error. To see this let $k = \floor*{\gamma}$. When $\Delta \gamma > 1$ then the $(k+1)$th neuron is then "enabled" so-to-speak. However, this $(k+1)$th neuron may perform a computation that increases error and so in the next step of gradient descent $\Delta \gamma$ would be negative, retreating away from the added model capacity of a randomly intiialized $(k+1)$th neuron. That is not to say that $\gamma$ might not increase again, repeating the process, or in the limit of such oscilations the update $ W^1_{k+1} -\alpha\partial E/\partial W^1_{k+1} \to W^1_{k+1}$, will eventually contribute to model accuracy, but relying on these dynamics as a result with no guarentees of convergence is questionable. Despite the fact that $\scriptn$ may need additional model capacity\footnote{There are functions which are unlearnable without a sufficient number of neurons for example.}, local search on capacity with respect to accuracy may not yield the required capacity to increase accuracy in the limit.
 
-	   \todo{Include brief analysis of richard's paper.}
+
+	Baring that local search doesn't necisarrily yield the desired properties, we might now consider a global search.
+	The more general setting is of course considering $E$ as a function of variable support geometry. In particular let $E: C^{\infty}_*(\mathbb{R}) \to \scriptl(\mathbb{R})$ so that $f \mapsto \text{supp}(|f|/2 + f/2).$ Not that $C^{\infty}_*(\mathbb{R})$ is the set of infinitely differentiable functions which vanish on at most a $\mu$-null set. Then computation of a gradient descent step becomes a variational problem
+	\begin{equation*}
+		\begin{aligned}
+			\frac{\delta F}{\delta f} &= \frac{\partial F}{\partial y^2} \frac{\delta y^2}{\delta f}  \\
+			&= \frac{\partial F}{\partial y^2} \left[\frac{\delta}{\delta f} \int_{E(f)} y^1 \omega_1\ d\mu \right]_{\mathfrak{n}} \\
+			&= \frac{\partial F}{\partial y^2} \left[\frac{\delta}{\delta f} \lim_{\kappa \to \infty}\int_{\reals} {\sigma}(\kappa f) y^1 \omega_1\ d\mu \right]_{\mathfrak{n}}
+		\end{aligned}
+	\end{equation*}
+
+	Now we attempt to compute the functional derivative of integration; that is, let $J_\kappa[f] = \int_{\reals} \sigma(\kappa f) y^1 \omega_1\ d\mu$.
+	Then
+	\begin{equation*}
+		\begin{aligned}
+			\frac{\delta J}{\delta f} &= \lim_{\epsilon \to 0} \lim_{\kappa \to \infty} \frac{J_\kappa[f + \epsilon \phi] - J_\kappa[f] }{\epsilon} \\
+			&= \lim_{\kappa \to \infty} \left[\frac{d}{d\epsilon} J_\kappa[f + \epsilon \phi]\right]_{\epsilon = 0} \\
+			&= \lim_{\kappa \to \infty} \left[\int_{\mathbb{R}} \frac{d}{d\epsilon} \sigma(\kappa(f + \epsilon \phi))y^1\omega_1\ d\mu \right]_{\epsilon = 0} \\
+			&= \lim_{\kappa \to \infty} \left[\int_{\mathbb{R}}  \sigma'(\kappa(f + \epsilon \phi)) \kappa \phi  y^1\omega_1\ d\mu \right]_{\epsilon = 0} \\
+			&=  \int_{\mathbb{R}}  \lim_{\kappa \to \infty} \sigma'(\kappa f) \kappa \phi  y^1\omega_1\ d\mu. \\
+			&=  \int_{\mathbb{R}} \delta(f(u)) \phi(u)  y^1(u)\omega_1(u)\ d\mu(u).
+			= \sum_{z \in Z(f)} \phi(z) y^1(z) \omega_1(z)
+		\end{aligned}
+	\end{equation*}
+	where $Z(f)$ is the set of zeroes of $f$. Thus we yield a functional gradient ascent step via the linear approximation
+	\begin{equation*}
+	\begin{aligned}
+		J[\phi] &= J[f] + \frac{\delta J}{\delta f}[\phi -f] + \frac{1}{2t} \left\|\phi - f\right\|^2 \\
+		0&= 0 +  \frac{\delta J}{\delta f} + \frac{\phi - f}{t} \\
+		\phi &= f - t \left(\psi \mapsto \sum_{z \in Z(f)} \psi(z) y^1(z) \omega_1(z)\right).
+	\end{aligned}
+	\end{equation*}
+	In addition to the previous update rule, we come to the redundant conclusion that $\delta J/\delta f|_{f=\Gamma} = 0$ for $\Gamma$ with no zeros, and therefore when $\Gamma < 0$ we have only found a minimum for $J$. In any case, the gradient in the hard limit of $k$ is zero at every point at which $f(u)$ is non-zero. Using a soft limit $\kappa \not \to \infty$ we get an ascent direction in the continuum of our initial search on $\gamma$l that is
+	\begin{equation*}
+		\phi = f - \sigma'(\kappa f) \kappa \phi \sum_{k=1}^\infty \chi_{k\cdot [0,1]} \left[\sigma \circ \delta(x)\right] W_k^1.
+	\end{equation*}
+	However, we face the same question as to whether optimziation on the loss function would yield ascent in the direction of random vectors for the purpose of capacity and not by their similarity actions to values which decrease error.
+
+	   \item \textbf{Fuzzy Vector Spaces as a Solution to Continuous Parameterization of Hidden Dimension.} As we saw in the previous  o
 
 
 \end{itemize}
