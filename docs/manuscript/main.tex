@@ -74,8 +74,29 @@
 \section{Planning \& Unorganized Results (*)}
 \subsection{Motivation \& Goal}
 
-\subsection{Questions/Hypothesis}
 
+In recent years, the success of deep learning has revolutionized machine learning in application to computer vision, reinforcement learning, and natural language processing\footnote{\todo{cite}}. In addition to their optimal performance, neural networks require little to no feautre engineering on the part of the practitioner. However in most recent approaches, considerable would-be feature engineering effort is placed on neural network design; that is, the price of automatically learning features in neural networks is that the pracitioner must then specify with some inductive bias what parameterixation and network capacity is optimal for learning those features. For example, the choice of convolutional or fully-connected layers in computer vision, or depth, width, and other topological properties of neural networks, all define the set of features which can be--or probabilistically will be--learned over the course of training.  To paraphrase Andrew Ng, "coming up with features is difficult, time-consuming, and requries expert knowledge;" and by analogy neural network design has become the new feature engineering of machine learning.
+
+In an attempt to eliminate the dpeendence of deep learning on architecture engineering, two major approaches have been set forth: the first, neural architecture search, specifies architectures as existing in a unified hyperparameter space and then performs various search methods therein; the second, hyperparameter-free deep learning , parameterizes the space of architectures so that the aforementioned hyperparameters are themeselves learned using the same optimizer as the weights and parameters they specify. In essence neural architecture search is a learned--and sometimes brute force\footnote{\todo{Cite random search of architecture paper if this does exist}}--approximation of the practitioner, which shares striking similarities to the traditional feature selection methods of statistical machine learning\footnote{\todo{Cite old ML automatic feature search methods}}. On the other hand, current hyperparameter-free approaches .... in direct opposition with the idea of extensions and random initializations. 
+
+
+\todo{Discuss various solutions in aggregate i.e. neural architecture search, differentiable methods.}
+
+\todo{Suggest new method whic hdoes not rely on }
+
+
+\subsection{Questions/Hypothesis}
+\begin{itemize}
+\item How to do it?
+\item Is the optimization problem tractable (e.g. will it lead to getting stuck in local optima which are far from the global optimum)?
+\item Use DFMs to represent widtha
+\item What about depth? It might not matter
+\item Graphons = DFMs (how many times you apply surface to itself determines how deep in the network you go)
+\item Takes approaches in fabrics and DAS and fully realizes a continuous optimization, how does performance compare in the continuous version?
+\item How do you scale continuous hyperparameter representation search? What search methods are optimal in this space (gradient)?  https://arxiv.org/abs/1609.01596 
+\item Is there any substantial benefit from separating the optimization of hyperparameters and parameters using direct feedback alignment?
+\item Gradient-based Hyperparameter Optimization through Reversible Learning
+\end{itemize}
 \subsection{Theory}
 
 \subsubsection{Desired Results}
