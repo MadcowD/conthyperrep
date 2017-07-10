@@ -181,7 +181,17 @@ The following are a set of desired experiments to verify the newly proposed hype
 	\end{equation*}
 	However, we face the same question as to whether optimziation on the loss function would yield ascent in the direction of random vectors for the purpose of capacity and not by their similarity actions to values which decrease error.
 
-	   \item \textbf{Fuzzy Vector Spaces as a Solution to Continuous Parameterization of Hidden Dimension.} As we saw in the previous  o
+	   \item \textbf{Fuzzy Vector Spaces as a Solution to Continuous Parameterization of Hidden Dimension.\footnote{
+	   This note is speculatory, and if time permits, a prerequisites seciton will be added to this document wherein a full discussion of fuzzy-vector spaces, and proofs of the optimizations there involved will be presented.}} Before we digress into a discussion of meta-loss functions\footnote{\emph{Meta-loss functions} means those which are conducive to increasing capacity in spite of immediate test error.}, we will consider an alternative approach to continuous parameterization.
+	   
+	   At its core, our task is to at least answer the following question: how is it possible to exhibit a real number of neurons on any given layer? As we saw in the previous notes, DFMs yield an answer that although locally satisfactory is inhibited globally. Instead, we might equate the aforementioned question with that of linear algebra: are there spaces with real algebraic\footnote{The reader who has not studied measure theory need not concern themselves with this qualifier. However, when we discuss real dimension, we mean not that the space has some fractal, real Hausdorff dimension, but that the space potentially has a module structure and a Fusion rule from which trace defines dimension.} dimension?  In a category theoretic sense, this question has an answer, but all examples (see Fibonacci categories) of fractional algebraic dimension lose the linear structure and any computable parameterization. Despite this, a last resort is to take literally the dimension of a vector space as the cardinality of its basis, and again our question is reduced to the following: do there exist linearly independent sets in $\mathbb{R}^\mathbb{N}$ with real cardinality. The space they 'span' in such a regime has the desired property for our continuous parameterization.
+	   
+    	   A plausible answer to these questions is fuzzy vector spaces. In these spaces, a basis is a fuzzy set of vectors which both span their space and are linearly independent to eachother. As fuzzy sets, their cardinality, and hence the dimensionality of the spece, is not an integer, but a fuzzy integer; that is to say, their cardinality is a postivie real number. Without digressing into a full discussion of fuzzy vector spaces, it suffices to think of this approach as similar to that of dropout. Each neuron (and potential neuron) has a grade of membership, and there is a constraint on the sum of these grades. As learning occurs the constraint changes and sume neurons are given larger and larger gradings untill they are 'members'. The grading of a neuron is a value in $[0,1]$ and as such can be thought of as a probability, in essence the 'number' of hidden units is an expectation on the activity of those hidden units; in a sense we gradient ascend on which neurons will be active in expectation and not in the magnitudes of their contributions. 
+    	   
+    	   \emph{Do these expectations some how code for capacity, or just merely introduce noise into the process?} For example if a neuron
+	   
+	   
+	   
 
 
 \end{itemize}
