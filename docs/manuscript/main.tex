@@ -112,8 +112,7 @@ The following are a set of desired experiments to verify the newly proposed hype
 \subsection{Related Notes}
 
 \begin{itemize}
-	\item \href{https://onedrive.live.com/edit.aspx/Documents/Machine%20Learning?cid=c05fef92a4e2f5cd&id=documents&wd=target%28Continuous%20Parameterization.one%7C577F6089-A9C8-40F1-A37C-474241ED5D20%2F%29
-onenote:https://d.docs.live.net/c05fef92a4e2f5cd/Documents/Machine%20Learning/Continuous%20Parameterization.one#section-id={577F6089-A9C8-40F1-A37C-474241ED5D20}&end}{Continuous Hidden Dimension}
+	\item \href{https://github.com/MadcowD/conthyperrep/blob/master/docs/notes/note1.pdf}{Continuous Hidden Dimension}
 	\item \textbf{Some Thoughts on Local Search on Hidden Units.} Let $\scriptn$ be the $\mathfrak{n}$-discrete instatntiation of the following DFM
 	\begin{equation*}
 	\begin{tikzcd}
@@ -140,12 +139,12 @@ onenote:https://d.docs.live.net/c05fef92a4e2f5cd/Documents/Machine%20Learning/Co
 		\int_{\floor*{\gamma}\cdot [0,1]} y^1(u) W^1_{\floor*{\gamma}}\ d\mu(u) = (\gamma - \floor*{\gamma}) y^1_{\floor*{\gamma}} W^1_{\floor*{\gamma}}
 	\end{equation*} increasing. Searching over $\gamma$ is effecitvely the same as spending extra time changing the weight $W_{\floor*{\gamma}}^1$ using two linearly dependent parameters, $(\gamma - \floor*{\gamma})$ and $W_{\floor*{\gamma}}^1$, itself\footnote{An additonal conclusion is, at least by analogy, that local search on $E(\gamma)$ at any one place assumes that adjacent neurons have similar values }. 
 
-	Thus we are led to the question: \emph{Is hyperparameter search a matter of immediate model accuracy or expected capacity for accuracy, and in that distinction, does optimizing hyperparameters with respect to model accuracy coorespond to optimization on model capactiy and visa versa?}  Let us examine this question in the following context. \
+	Thus we are led to the question: \emph{Is hyperparameter search a matter of immediate model accuracy or expected capacity for accuracy, and in that distinction, does optimizing hyperparameters with respect to model accuracy coorespond to optimization on model capactiy and vice versa?}  Let us examine this question in the following context. \
 
 	Above, we noted that a local search on $\gamma$ decreased error in exactly the same fashion as standard gradient descent, but a step in $\gamma$ of more than integral amount can increase error. To see this let $k = \floor*{\gamma}$. When $\Delta \gamma > 1$ then the $(k+1)$th neuron is then "enabled" so-to-speak. However, this $(k+1)$th neuron may perform a computation that increases error and so in the next step of gradient descent $\Delta \gamma$ would be negative, retreating away from the added model capacity of a randomly intiialized $(k+1)$th neuron. That is not to say that $\gamma$ might not increase again, repeating the process, or in the limit of such oscilations the update $ W^1_{k+1} -\alpha\partial E/\partial W^1_{k+1} \to W^1_{k+1}$, will eventually contribute to model accuracy, but relying on these dynamics as a result with no guarentees of convergence is questionable. Despite the fact that $\scriptn$ may need additional model capacity\footnote{There are functions which are unlearnable without a sufficient number of neurons for example.}, local search on capacity with respect to accuracy may not yield the required capacity to increase accuracy in the limit.
 
 
-	Baring that local search doesn't necisarrily yield the desired properties, we might now consider a global search.
+	Baring that local search doesn't necessarily yield the desired properties, we might now consider a global search.
 	The more general setting is of course considering $E$ as a function of variable support geometry. In particular let $E: C^{\infty}_*(\mathbb{R}) \to \scriptl(\mathbb{R})$ so that $f \mapsto \text{supp}(|f|/2 + f/2).$ Not that $C^{\infty}_*(\mathbb{R})$ is the set of infinitely differentiable functions which vanish on at most a $\mu$-null set. Then computation of a gradient descent step becomes a variational problem
 	\begin{equation*}
 		\begin{aligned}
