@@ -72,6 +72,34 @@
 % TODO: After planning phase move to sections.
 
 \section{Planning \& Unorganized Results (*)}
+
+
+\subsection{General Todos and deadlines}
+\begin{enumerate}
+	\item \todo{Formalize capacity loss.} This could be expexcted training loss or expected test accuracy, etc. The goal with this step is to find some sort of notion of loss which accounts for how when adding capacity, (randomly initialized), the gains to performance  will almost never be immediate but in how quickly learning converges and how accurate the model is on the test set.  In providing the formalizaiton, we aim to either show that \emph{no local\footnote{Local in this case means that the search method is with respect to ascending the immediate training accuracy, not local in the sense that the search is local in hyperparameter space, ie. $d(\theta_t, \theta_{t+1}) < \epsilon$ where $\theta$ are model hyper parameters and $d$ is some distance measure.}, gradient based NAS exists} or propose a new gradient based NAS which descends this new expected capacity loss.
+	\item \todo{Select a conference for submission.}
+	\item \todo{Finish motivation section.}
+	\item \todo{Write problem statement}
+	\item \todo{Formalize (and write about) the continuous parameterization of NNs.}
+	\begin{itemize}
+		\item \todo{Formalize continuous parameterization of hidden dimension.}
+		\item \todo{Formalize continuous parameterization of certain hyperparameters in convolutional layers.} This is especially important if it is not possibleto parameterize a gain in hidden dimension. We might be able to pull off just making certain convolution hyperparameters continuous (e.g. stride).
+		\item \todo{Formalize continuous parameterization of computation graph topology.}
+	\end{itemize}
+
+	\item \todo{Populate reading list section.}
+	\item \todo{Propose several experiments.} Furthermore what follows are just a few ideas.
+	\begin{itemize}
+		\item \todo{Create an experiment which compares DNAS to continuous paramaeterization NAS.}
+		\item \todo{Create an experiment which uses DDPG or A-NAF to perform reinforcement learning on the continuous representation.} We want to show that despite our heradling of "local" search methods, the entire architecture search community can use this unified representation to their benefit. 
+
+		An interesting sub-experiment here would be something to do with comparison to how RL performs on a descrete representation of hyperaparameters using DDPG with a non-differentaible transition function\footnote{This basically forces the continuous actions of the actor to be in a softmax distribution and then selects the argmax as the discrete action.} If continuous outperforms the standard results, it becomes adventageous outside of DNAS literature like DNAS and Neural Fabrics.
+	\end{itemize}
+	\item \todo{Create a dataset of datasets from UCI and OpenAI Gym extension. }
+
+\end{enumerate}
+
+
 \subsection{Motivation \& Goal}
 
 
@@ -108,6 +136,10 @@ In an attempt to eliminate the dpeendence of deep learning on architecture engin
 The following are a set of desired experiments to verify the newly proposed hyperparameter representation.
 
 \subsection{Reading List}
+
+
+
+
 
 \subsection{Related Notes}
 
@@ -188,17 +220,18 @@ The following are a set of desired experiments to verify the newly proposed hype
 	   
     	   A plausible answer to these questions is fuzzy vector spaces. In these spaces, a basis is a fuzzy set of vectors which both span their space and are linearly independent to eachother. As fuzzy sets, their cardinality, and hence the dimensionality of the spece, is not an integer, but a fuzzy integer; that is to say, their cardinality is a postivie real number. Without digressing into a full discussion of fuzzy vector spaces, it suffices to think of this approach as similar to that of dropout. Each neuron (and potential neuron) has a grade of membership, and there is a constraint on the sum of these grades. As learning occurs the constraint changes and sume neurons are given larger and larger gradings untill they are 'members'. The grading of a neuron is a value in $[0,1]$ and as such can be thought of as a probability, in essence the 'number' of hidden units is an expectation on the activity of those hidden units; in a sense we gradient ascend on which neurons will be active in expectation and not in the magnitudes of their contributions. 
     	   
-    	   \emph{Do these expectations some how code for capacity, or just merely introduce noise into the process?} For example if a neuron
+    	   \emph{Do these expectations some how code for capacity, or just merely introduce noise into the process?}
+    	   \todo{Finish the note: add all definitions for fuzzy spaces, provide gradient ascent analysis.}
 	   
+
+	   \item \textbf{Model Capacity and Expectation.}
 	   
 	   
 
 
 \end{itemize}
 
-\subsection{Timeline}
 
-T
 
 
 
@@ -214,7 +247,7 @@ T
 % \input{discussion}
 
 \ifdraft
-\appendix
+\appendixsl
 % \input{appendix}
 \fi
 
